@@ -1,22 +1,61 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { ToDoInput } from "./ToDoInput";
 import { ToDoList } from "./ToDoList";
+import { use } from "react";
+import { preprocessCSS } from "vite";
 
 const Home = () => {
 	const [toDos, setToDos] = useState([])
+	const [userInput, setUserInput] = useState("");
+	useEffect(() => {
+		getUser()
+	}, [])
+
+	const getUser = async () => {
+		let response = await fetch("https://playground.4geeks.com/todo/users/evensa7")
+		let data = response.json()
+		if (data.details == "User evensa7 doesn't exist.") {
+			let response = await fetch("https://playground.4geeks.com/todo/users/evensa7", {
+				method: "POST",
+				headers: { "Content-type": "application/json" },
+
+			})
+		}
+		else {
+			// console.log(data.todos)
+			setToDos(data.todos)
+		}
+	}
+
 	const createToDoList = async () => {
 
-		
+
 	}
 	const getList = async () => {
 
 
 	}
+	const addToDo = async () => { 
+		let response = await fetch("https://playground.4geeks.com/todo/todos/evensa7",{
+			method: "POST",
+			headers: { "Content-type": "application/json" },	
+			body: JSON.stringify({
+				label: userInput,
+				is_done: false
+			})
+		})
+		let data = await response.json()
+			getUser()
+	}
+
 
 	return (
 		<div className="text-center">
-			<ToDoInput />
-			<ToDoList />
+			<input value={userInput} onChange={(e) => { setUserInput(e.target.value) }}></input>
+			<button onClick={(e) => addToDo(e)}>Add To List</button>
+			<ToDoList todos={
+				toDos
+			} />
 
 		</div>
 	);
