@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { ToDoInput } from "./ToDoInput";
 import { ToDoList } from "./ToDoList";
 import { use } from "react";
-import { preprocessCSS } from "vite";
 
 const Home = () => {
 	const [toDos, setToDos] = useState([])
@@ -13,7 +12,7 @@ const Home = () => {
 
 	const getUser = async () => {
 		let response = await fetch("https://playground.4geeks.com/todo/users/evensa7")
-		let data = response.json()
+		let data = await response.json()
 		if (data.details == "User evensa7 doesn't exist.") {
 			let response = await fetch("https://playground.4geeks.com/todo/users/evensa7", {
 				method: "POST",
@@ -22,7 +21,7 @@ const Home = () => {
 			})
 		}
 		else {
-			// console.log(data.todos)
+			console.log(data)
 			setToDos(data.todos)
 		}
 	}
