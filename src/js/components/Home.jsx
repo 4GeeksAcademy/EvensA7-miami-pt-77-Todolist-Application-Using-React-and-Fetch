@@ -13,7 +13,7 @@ const Home = () => {
 	const getUser = async () => {
 		let response = await fetch("https://playground.4geeks.com/todo/users/evensa7")
 		let data = await response.json()
-		if (data.details == "User evensa7 doesn't exist.") {
+		if (data.detail == "User evensa7 doesn't exist.") {
 			let response = await fetch("https://playground.4geeks.com/todo/users/evensa7", {
 				method: "POST",
 				headers: { "Content-type": "application/json" },
@@ -54,7 +54,8 @@ const Home = () => {
 			<button onClick={(e) => addToDo(e)}>Add To List</button>
 			<ToDoList todos={
 				toDos
-			} />
+			} 
+			getUser = {getUser} />
 
 		</div>
 	);
